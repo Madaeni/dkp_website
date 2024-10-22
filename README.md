@@ -34,8 +34,8 @@ docker compose up -d
 
 ## Над проектом работали:
 
-* **Дизайн сайта** - jRomka
+* **Дизайн сайта** - [jRomka](https://t.me/sredindsgn)
 
 * **Фронтенд** - 
 
-* **Бэкенд** - Madaeni
+* **Бэкенд** - [Madaeni](https://github.com/Madaeni)
