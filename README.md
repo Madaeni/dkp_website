@@ -36,6 +36,6 @@ docker compose up -d
 
 * **Дизайн сайта** - [jRomka](https://t.me/sredindsgn)
 
-* **Фронтенд** - 
+* **Фронтенд** - [verstaulo](https://github.com/verstaulo)
 
 * **Бэкенд** - [Madaeni](https://github.com/Madaeni)
