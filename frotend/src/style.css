@@ -1,0 +1,75 @@
+@font-face {
+    font-family: "Geometria Regular";
+    src: url("./fonts/Geometria.woff2") format("woff2"),
+    url("./fonts/Geometria.woff") format("woff"), url("./fonts/Geometria.ttf") format("ttf");
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: "Geometria Medium";
+    src: url("./fonts/Geometria-Medium.woff2") format("woff2"),
+    url("./fonts/Geometria-Medium.woff") format("woff"), url("./fonts/Geometria-Medium.ttf") format("ttf");
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: "Commissioner Regular";
+    src: url("./fonts/Commissioner-Regular.woff2") format("woff2"),
+    url("./fonts/Commissioner-Regular.woff") format("woff"), url("./fonts/Commissioner-Regular.ttf") format("ttf");
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: "Gentium Book Plus Regular";
+    src: url("./fonts/GentiumBookPlus-Regular.woff2") format("woff2"),
+    url("./fonts/GentiumBookPlus-Regular.woff") format("woff"), url("./fonts/GentiumBookPlus-Regular.ttf") format("ttf");
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: "Jacques Francois Regular";
+    src: url("./fonts/JacquesFrancois-Regular.woff2") format("woff2"),
+    url("./fonts/JacquesFrancois-Regular.woff") format("woff"), url("./fonts/JacquesFrancois-Regular.ttf") format("ttf");
+    font-weight: 400;
+}
+
+:root {
+    font-family: "Geometria Regular", sans-serif;
+    line-height: 1.5;
+
+    color-scheme: light dark;
+    color: rgba(255, 255, 255, 0.87);
+    background-color: #090909;
+
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    --baseBackground: #0D0D0D;
+    --primary: #ED1B25;
+    --secondary: #2E2E2E;
+    --textMuted: #686868;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 10px;
+}
+
+body {
+    min-width: 320px;
+    min-height: 100vh;
+    font-size: 1.6rem;
+}
+
+.container {
+    max-width: 194rem;
+    padding: 0 1rem;
+    margin: 0 auto;
+}
