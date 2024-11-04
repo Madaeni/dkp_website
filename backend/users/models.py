@@ -2,8 +2,14 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
-class User(AbstractUser):
+class Avatar(models.Model):
     avatar = models.FileField(
         upload_to='avatars/',
-        default='avatars/default.jpg'
+    )
+
+
+class User(AbstractUser):
+    avatar = models.ForeignKey(
+        Avatar, on_delete=models.SET_NULL, null=True,
+        related_name='user_avatar', verbose_name='Аватар'
     )
