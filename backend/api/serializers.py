@@ -7,6 +7,8 @@ from dkp.models import (
     Dkp,
     Auction,
     Bet,
+    Event,
+    EventCharacter
 )
 from users.models import Avatar
 
@@ -45,6 +47,18 @@ class UserSerializer(UserCreateSerializer):
 
 
 class GetCharacterSerializer(serializers.ModelSerializer):
+
+    def validate(self, data):
+        if (
+            self.context['request'].method == 'POST' and
+            Character.objects.filter(
+                user=self.context['request'].user
+            ).exists()
+        ):
+            raise serializers.ValidationError({
+                'non_field_errors': ['Можно создать только одного персонажа!']
+            })
+        return data
 
     class Meta:
         model = Character
@@ -152,3 +166,18 @@ class BetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bet
         fields = '__all__'
+
+
+class EventSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Event
+        fields = '__all__'
+
+
+class EventCharacterSerializer(serializers.ModelSerializer):
+    character = GetCharacterSerializer()
+
+    class Meta:
+        model = EventCharacter
+        fields = ['event_id', 'character']

@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework.authtoken',
     'rest_framework',
+    'drf_spectacular',
     'djoser',
     'core.apps.CoreConfig',
     'api.apps.ApiConfig',
@@ -136,6 +137,8 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny',
     ],
 
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
     ],
@@ -147,9 +150,14 @@ REST_FRAMEWORK = {
 
 DJOSER = {
     'HIDE_USERS': False,
-    # 'LOGIN_FIELD': 'email',
     'PERMISSIONS': {
         'user': ['rest_framework.permissions.IsAuthenticatedOrReadOnly'],
         'user_list': ['rest_framework.permissions.IsAuthenticatedOrReadOnly'],
     },
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'API DKP',
+    'DESCRIPTION': 'Учет активности пользователей',
+    'VERSION': '1.0.0',
 }
