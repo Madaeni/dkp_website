@@ -13,9 +13,6 @@ RUN pip install -r requirements.txt
 # Копируем код приложения
 COPY . .
 
-# Создаем скрипт запуска
-COPY docker-cron.sh /usr/local/bin/docker-cron.sh
-RUN chmod +x /usr/local/bin/docker-cron.sh
-
 # Запускаем приложение
-CMD ["/usr/local/bin/docker-cron.sh"]
+RUN chmod +x docker-cron.sh
+CMD ["bash", "docker-cron.sh"]
