@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}
+    <title>Профиль пользователя</title>
+{% endblock %}
+{% block content %}
+    <main class="main main__dkp">
+
+    <section class="acc">
+        <div class="container">
+            <div class="acc__title">Профиль пользователя</div>
+            <form class="acc__form" method="post" action=".">
+                {% csrf_token %}
+                <div class="acc__form-row">
+                    {% if character %}
+                        <div class="acc__form-item">
+                            <input type="text" class="input__prem" name="character_name" placeholder="{{ character.name }}">
+                        </div>
+                        <div class="acc__form-item">
+                            <button class="btn__prem">Переименовать</button>
+                        </div>
+                    {% else %}
+                        <div class="acc__form-item">
+                            <input type="text" class="input__prem" name="character_name" placeholder="Введите имя игрового персонажа">
+                        </div>
+                        <div class="acc__form-item">
+                            <button class="btn__prem">Создать</button>
+                        </div>
+                    {% endif %}
+                </div>
+            </form>
+            <div class="dkp__tabs">
+                <div class="dkp__tabs-item dkp__tabs-title">
+                    <div>Событие</div>
+                    <div>Последние начисления</div>
+                    <div>Дата</div>
+                </div>
+                
+                <div class="dkp__tabs-inner">
+                    {% for event in events %}
+                        <div class="dkp__tabs-item">
+                            <div>{{ event.event_type.name }}</div>
+                            <div>+{{ event.event_type.cost }} DKP</div>
+                            <div>{{ event.created_at }}</div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    </main>
+{% endblock %}

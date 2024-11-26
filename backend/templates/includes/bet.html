@@ -1,0 +1,12 @@
+<div class="popup popup__main" style="display: none; width: 361px;" id="popup-auc">
+    <form class="popup__auc-form" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="lot_id" id="lot-id-input">
+        <div class="popup__auc-form-item">
+            <input type="text" name="new_bet" class="input__prem" placeholder="Сделайте ставку">
+        </div>
+        <div class="popup__auc-form-item">
+            <button class="btn__prem" name="create_bet_submit">Сделать ставку</button>
+        </div>
+    </form>
+</div>

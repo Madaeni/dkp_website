@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}
+    <title>BLOODCULT</title>
+{% endblock %}
+{% block content %}
+    <main>
+        <div class="container py-5">
+            <section class="intro">
+                <div class="container">
+                    <div class="intro__inner">
+                        <a href="#" class="intro__btn callmodal" data-id="#popup-recall">ВОЙТИ</a>
+                    </div>
+                </div>
+            </section>
+
+            <div class="popup popup__main" style="display: none; width: 561px;" id="popup-recall">
+                <div class="tabs" id="tabs">
+                    <ul class="tabs-nav">
+                        <li><a href="#tab-2" >Войти</a></li>
+                        <li><a href="#tab-1" class="active" id="tab-1">Зарегистрироваться</a></li>
+                    </ul>
+                    <div class="tabs-items">
+                        {% include "includes/registration.html" with form=reg_form %}
+                        {% include "includes/authorization.html" with form=auth_form %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Скрипт для открытия модального окна при наличии ошибок -->
+    <script>
+        window.onload = function () {
+            const regErrorsExist = '{{ reg_form.errors }}';
+            const authErrorsExist = '{{ auth_form.errors }}';
+            
+            if (regErrorsExist.trim() || authErrorsExist.trim()) {
+                $.fancybox.open({ src: '#popup-recall' });
+                document.querySelector('#tab-1').click();
+            }
+        };
+    </script>
+{% endblock %}

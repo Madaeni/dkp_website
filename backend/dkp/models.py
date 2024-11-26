@@ -198,7 +198,7 @@ class Dkp(models.Model):
     class Meta:
         verbose_name = 'DKP'
         verbose_name_plural = 'DKP'
-        ordering = ('user',)
+        ordering = ('character__name',)
 
     def __str__(self):
         return f'DKP пользователя {self.user}'

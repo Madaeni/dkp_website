@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}
+    <title>BLOODCULT DKP</title>
+{% endblock %}
+{% block content %}
+    <main class="main main__dkp">
+        <section class="dkp">
+            <div class="container">
+                <div class="dkp__inner tabs">
+                    <ul class="tabs-nav">
+                        <li><a href="{% url 'dkp:home' %}" {% if request.path == "/" %}class="active"{% endif %}>Последние начисления</a></li>
+                        <li><a href="{% url 'dkp:auction' %}" {% if request.path == "/auction/" %}class="active"{% endif %}>Аукцион за DKP</a></li>
+                        <li><a href="{% url 'dkp:closed_auction' %}" {% if request.path == "/closed-auctions/" %}class="active"{% endif %}>Завершенные аукционы</a></li>
+                    </ul>
+                    <div class="tabs-items">
+                        {% if request.path == "/" %}
+                            {% include "includes/table.html" with page=dkp_table %}
+                        {% elif request.path == "/auction/" %}
+                            {% include "includes/auction.html" with page=lots %}
+                        {% else %}
+                            {% include "includes/closed_auctions.html" with page=lots %}
+                        {% endif %}    
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    {% if request.path == "/" %}
+        {% include "includes/create_event.html"%}
+    {% else %}
+    {% include "includes/create_lot.html" %}
+        {% include "includes/bet.html" %}
+    {% endif %}
+{% endblock %}

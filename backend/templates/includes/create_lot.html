@@ -1,0 +1,20 @@
+<div class="popup popup__main" style="display: none; width: 521px;" id="popup-luc">
+    <form class="popup__auc-form" name="create_lot" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="popup__auc-form-item">
+            <div class="field__wrapper">
+                <input type="file" name="file" id="field__file-2" class="field field__file" multiple>
+                <label class="field__file-wrapper" for="field__file-2">
+                    <div class="field__file-fake">Файл не вбран</div>
+                    <div class="field__file-button">+</div>
+                </label>
+            </div>
+        </div>
+        <div class="popup__auc-form-item">
+            <input name="time" type="time" class="input__prem">
+        </div>
+        <div class="popup__auc-form-item">
+            <button class="btn__prem" name="create_lot">Добавить</button>
+        </div>
+    </form>
+</div>

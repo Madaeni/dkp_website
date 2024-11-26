@@ -20,6 +20,7 @@ ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',')
 
 INSTALLED_APPS = [
     'users.apps.UsersConfig',
+    'django_bootstrap5',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,14 +44,17 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'website.middleware.AdminLoginRequiredMiddleware',
 ]
 
 ROOT_URLCONF = 'website.urls'
 
+TEMPLATES_DIR = BASE_DIR / 'templates'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [TEMPLATES_DIR],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -123,9 +127,13 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'collected_static'
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
 
-MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -156,8 +164,16 @@ DJOSER = {
     },
 }
 
+
 SPECTACULAR_SETTINGS = {
     'TITLE': 'API DKP',
     'DESCRIPTION': 'Учет активности пользователей',
     'VERSION': '1.0.0',
+    'PREPROCESSING_HOOKS': [
+        'drf_spectacular.hooks.preprocess_exclude_path_format',
+        'website.filters.filter_djoser_paths',
+    ],
 }
+
+LOGIN_REDIRECT_URL = 'dkp:web_login'
+LOGOUT_REDIRECT_URL = 'dkp:web_login'

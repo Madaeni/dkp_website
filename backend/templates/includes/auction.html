@@ -1,0 +1,95 @@
+{% load static %}
+<div class="tabs-item" id="tab-2">
+    <h2 class="dkp__title">Аукцион за DKP</h2>
+        {% if messages %}
+            <div class="messages__box">
+                <div class="messages">
+                    {% for message in messages %}
+                    <div class="alert alert-error">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+    <div class="dkp__auc">
+        {% for lot in lots %}
+            <div class="dkp__auc-item" data-close-date="{{ lot.close_date|date:'c' }}">
+                <div class="dkp__auc-timer">
+                    <span>До окончания аукциона: </span>
+                    <div class="counter">
+                        <div class="getting-started"></div>
+                    </div>
+                </div>
+                <img src="{{ MEDIA_URL }}{{ lot.lot_image }}" alt="" class="dkp__auc-img">
+                <div class="dkp__auc-name">
+                    {% if lot.character %}
+                        Последняя ставка: <span>{{ lot.character }} {{ lot.bet }} DKP</span>
+                    {% else %}
+                        Последняя ставка: <span>Ставок нет</span>
+                    {% endif %}
+                </div>
+                <a href="#" class="btn__prem callmodal" data-id="#popup-auc" data-lot-id="{{ lot.id }}">Сделать ставку</a>
+            </div>
+        {% endfor %}
+    </div>
+    {% include "includes/pagination.html" %}
+    {% if request.user.is_staff %}
+        <div class="dkp__btn">
+            <a href="#" class="intro__btn callmodal" data-id="#popup-luc">СОЗДАТЬ ЛОТ</a>
+        </div>
+    {% endif %}
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const counters = document.querySelectorAll('.counter');
+    
+        counters.forEach(counter => {
+            const item = counter.closest('.dkp__auc-item');
+            const closeDateStr = item.getAttribute('data-close-date');
+            const closeDate = new Date(closeDateStr).getTime();
+    
+            function updateTimer() {
+                const now = new Date().getTime();
+    
+                const diff = closeDate - now;
+    
+                if (diff > 0) {
+                    let days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                    let hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+                    let minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+                    let seconds = Math.floor((diff % (1000 * 60)) / 1000).toString().padStart(2, '0');
+                    counter.innerHTML = `${hours}:${minutes}:${seconds}`;
+                } else {
+                    clearInterval(timerId);
+                    counter.innerHTML = 'Аукцион завершен';
+                }
+            }
+    
+            const timerId = setInterval(updateTimer, 1000);
+            updateTimer();
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const buttons = document.querySelectorAll('.callmodal');
+        
+        buttons.forEach(button => {
+            button.addEventListener('click', (event) => {
+                event.preventDefault();
+                
+                const lotIdInput = document.getElementById('lot-id-input');
+                const lotId = button.dataset.lotId;
+                
+                lotIdInput.value = lotId;
+                
+                const modalId = button.dataset.id;
+                const modalElement = document.querySelector(modalId);
+                modalElement.style.display = 'block';
+            });
+        });
+    });
+</script>

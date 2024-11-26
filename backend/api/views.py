@@ -6,7 +6,6 @@ from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.permissions import (
     IsAuthenticated,
-    IsAdminUser
 )
 from rest_framework.response import Response
 
@@ -66,8 +65,23 @@ class AvatarViewSet(viewsets.ReadOnlyModelViewSet):
 class DkpViewSet(viewsets.ModelViewSet):
     queryset = Dkp.objects.all()
     serializer_class = GetDkpListSerializer
-    http_method_names = ['get', 'post']
-    permission_classes = [IsAdminUser]
+    http_method_names = ['get', 'patch']
+
+    @action(
+        methods=['get'],
+        detail=False,
+        permission_classes=[IsAuthenticated],
+    )
+    def me(self, request, *args, **kwargs):
+        user = request.user
+        dkp_data = self.queryset.filter(user=user).first()
+        if not dkp_data:
+            return Response(
+                {'detail': 'Нет данных о DKP для этого пользователя'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        serializer = self.get_serializer(dkp_data)
+        return Response(serializer.data)
 
 
 @extend_schema(tags=['Auction'])
