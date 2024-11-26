@@ -56,8 +56,7 @@ jobs:
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USER }}
-        key: ${{ secrets.SSH_KEY }}
-        passphrase: ${{ secrets.SSH_PASSPHRASE }}
+        password: ${{ secrets.PASSWORD }}
         source: "docker-compose.production.yml"
         target: "dkp_website"
     - name: Executing remote ssh commands to deploy
