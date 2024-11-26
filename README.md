@@ -31,11 +31,14 @@ docker compose up -d
 ## Примеры использования:
 
 Данный проект может быть полезен для гильдий в MMORPG, которые хотят отслеживать активность своих игроков и распределять награды в зависимости от вклада.
+<<<<<<< Updated upstream
 
 ## Над проектом работали:
 
 * **Дизайн сайта** - [jRomka](https://t.me/sredindsgn)
 
-* **Фронтенд** - [verstaulo](https://github.com/verstaulo)
+* **Фронтенд** - 
 
 * **Бэкенд** - [Madaeni](https://github.com/Madaeni)
+=======
+>>>>>>> Stashed changes
