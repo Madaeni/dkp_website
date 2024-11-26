@@ -1,0 +1,16 @@
+<div class="popup popup__main" style="display: none; width: 521px;" id="popup-luc-inner">
+    <h2>Мероприятие</h2>
+    <form class="popup__auc-form" method="post">
+        {% csrf_token %}
+        <div class="popup__auc-form-item">
+            <select class="js-example-basic-single" name="event_type">
+                {% for event in event_types %}
+                    <option value="{{ event.id }}">{{ event.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="popup__auc-form-item">
+            <button class="btn__prem" name="create_event_submit">Добавить</button>
+        </div>
+    </form>
+</div>

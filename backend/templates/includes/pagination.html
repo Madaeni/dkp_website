@@ -1,0 +1,11 @@
+{% if paginator.num_pages > 1 %}
+    <div class="dkp__pag">
+        {% for num in paginator.page_range %}
+            {% if num == page.number %}
+                <a href="#" class="dkp__pag-item active">{{ num }}</a>
+            {% else %}
+                <a href="?page={{ num }}" class="dkp__pag-item">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endif %}

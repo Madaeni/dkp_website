@@ -1,0 +1,29 @@
+{% load static %}
+<header class="header">
+    <div class="container">
+        <div class="header__inner">
+            <a href="/" class="header__logo">
+                <img src="{% static 'img/logo.png' %}" alt="">
+            </a>
+            {% if user.is_authenticated %}
+                <div class="header__acc">
+                    <div class="header__avatar">
+                        <div class="header__avatar-inner">
+                            <img src="{{ MEDIA_URL }}{{ avatar.avatar }}" alt="">
+                        </div>
+                    </div>
+                    <div>
+                        <a href="{% url 'dkp:profile' %}" class="header__acc-name">{{ username }}</a>
+                        <div>DKP: {{ dkp_points }} </div>
+                        <div>
+                            <form action="{% url 'dkp:web_logout' %}" method="post" class="header__logout-form">
+                                {% csrf_token %}
+                                <button type="submit" class="header__logout-button">Выход</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</header>

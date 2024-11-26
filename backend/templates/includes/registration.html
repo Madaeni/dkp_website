@@ -1,0 +1,42 @@
+<div class="tabs-item" id="tab-1">
+    <div class="popup__title">Регистрация</div>
+    <form class="popup__form" method="post" novalidate id="registration-form">
+        {% csrf_token %}
+        <div class="popup__form-item">
+            <input type="text" class="input__prem" name="username" placeholder="Введите свой никнейм">
+            {% for error in reg_form.username.errors %}
+                <p class="help-block">{{ error }}</p>
+            {% endfor %}
+        </div>
+        <div class="popup__form-item">
+            <input type="text" class="input__prem" name="email" placeholder="Введите свой E-mail">
+            {% for error in reg_form.email.errors %}
+                <p class="help-block">{{ error }}</p>
+            {% endfor %}
+        </div>
+        <div class="popup__form-item">
+            <input type="password" class="input__prem" name="password1" placeholder="Введите пароль">
+            {% for error in reg_form.password1.errors %}
+                <p class="help-block">{{ error }}</p>
+            {% endfor %}
+        </div>
+        <div class="popup__form-item">
+            <input type="password" class="input__prem" name="password2" placeholder="Повторите пароль">
+            {% for error in reg_form.password2.errors %}
+                <p class="help-block">{{ error }}</p>
+            {% endfor %}
+        </div>
+        <div class="popup__form-item">
+            <button class="btn__prem" type="submit" name="reg_submit">Зарегистрироваться</button>
+        </div>
+        <div class="popup__form-item">
+            <label class="main-form-checkbox">
+                <span class="main-form-checkbox-text">
+                    Нажимая на кнопку “Зарегистрироваться“ вы даёте согласие на обработку персональных данных
+                </span>
+                <input checked class="main-form-checkbox-input" type="checkbox">
+                <span class="main-form-checkbox-checkmark"></span>
+            </label>
+        </div>
+    </form>
+</div>

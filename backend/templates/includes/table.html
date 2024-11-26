@@ -1,0 +1,53 @@
+<div class="tabs-item" id="tab-1">
+    <h2 class="dkp__title">Таблица DKP</h2>
+    {% if event %}
+        <div class="dkp__event">
+            <div class="dkp__event-title">{{ event.event_type }}</div>
+            <div class="dkp__event-btn">
+                <form method="post" action=".">
+                {% csrf_token %}
+                    <button class="btn__item" name="event_registration_submit">Зарегистрироваться</button>
+                    <button class="btn__prem" name="event_close_submit">Закрыть событие</button>
+                </form>
+            </div>
+            <div class="dkp__event-list">
+                {% if event_players %}
+                    {% for event_player in event_players%}
+                        <div class="dkp__event-list-item">
+                            <div>{{ event_player.character }}</div>
+                            {% if request.user.is_staff %}
+                                <form method="post" action=".">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="player_id" value="{{ event_player.id }}">
+                                    <button class="dkp__event-list-btn" name="event_delete_user_submit">Удалить</button>
+                                </form>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+    <div class="dkp__tabs">
+        <div class="dkp__tabs-item dkp__tabs-title">
+            <div>Имя персонажа</div>
+            <div>Общее количество DKP</div>
+            <div>Дата последнего участия</div>
+        </div>
+        <div class="dkp__tabs-inner">
+            {% for player in dkp_table %}
+                <div class="dkp__tabs-item">
+                    <div>{{ player.character }}</div>
+                    <div>{{ player.points }}</div>
+                    <div>{{ player.last_activity }}</div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% include "includes/pagination.html" %}
+    {% if request.user.is_staff %}
+        <div class="dkp__btn">
+            <a href="#" class="intro__btn callmodal" data-id="#popup-luc-inner">СОЗДАТЬ МЕРОПРИЯТИЕ</a>
+        </div>
+    {% endif %}
+</div>

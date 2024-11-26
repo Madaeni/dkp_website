@@ -1,0 +1,18 @@
+{% load static %}
+<div class="tabs-item" id="tab-3">
+    <h2 class="dkp__title">Завершенные аукционы</h2>
+    <div class="dkp__auc">
+        {% for lot in lots %}
+            <div class="dkp__auc-item">
+                
+                <div class="dkp__auc-name">
+                    {% if lot.character %}
+                        Победившая ставка: <span>{{ lot.character }} {{ lot.bet }} DKP</span>
+                    {% endif %}
+                </div>
+                <img src="{{ MEDIA_URL }}{{ lot.lot_image }}" alt="" class="dkp__auc-img">
+            </div>
+        {% endfor %}
+    </div>
+    {% include "includes/pagination.html" %}
+</div>
