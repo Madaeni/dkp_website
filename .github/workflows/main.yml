@@ -58,7 +58,7 @@ jobs:
         username: ${{ secrets.USER }}
         password: ${{ secrets.PASSWORD }}
         source: "docker-compose.production.yml"
-        target: "dkp_website"
+        target: "/home/dkp_website"
     - name: Executing remote ssh commands to deploy
       uses: appleboy/ssh-action@master
       with:
