@@ -127,12 +127,7 @@ class Auction(models.Model):
         CLOSED = 'closed', _('Завершенный')
 
     lot_image = models.ImageField('Изображение лота', upload_to='auctions/',)
-    close_date = models.DateTimeField(
-        'Дата окончания',
-        validators=[
-            validate_close_date_greater_than_created_at,
-        ]
-    )
+    close_date = models.DateTimeField('Дата окончания')
     created_at = models.DateTimeField('Дата создания', auto_now_add=True)
     is_active = models.CharField(
         'Статус', max_length=IS_ACTIVE_MAX_LENGTH,
@@ -143,6 +138,10 @@ class Auction(models.Model):
         verbose_name = 'аукцион'
         verbose_name_plural = 'Аукционы'
         ordering = ('-created_at',)
+
+    def clean_fields(self, exclude=None):
+        super().clean_fields(exclude=exclude)
+        validate_close_date_greater_than_created_at(self.close_date, self)
 
     def __str__(self):
         formated_date = self.created_at.strftime('%H:%M %Y.%m.%d')
