@@ -29,6 +29,7 @@ from dkp.utils import (
     get_user_events,
     get_base_context,
     require_character,
+    auction_complete,
 )
 from website import settings
 
@@ -108,6 +109,7 @@ def profile(request):
 
 @login_required(login_url=settings.LOGIN_REDIRECT_URL)
 @require_character
+@auction_complete
 def dkp_table(request):
     """Генерация домашней страницы."""
     template = 'dkp/dkp.html'
@@ -140,6 +142,7 @@ def dkp_table(request):
 
 @login_required(login_url=settings.LOGIN_REDIRECT_URL)
 @require_character
+@auction_complete
 def auction(request):
     """Генерация домашней страницы."""
     template = 'dkp/dkp.html'
@@ -168,6 +171,7 @@ def auction(request):
 
 @login_required(login_url=settings.LOGIN_REDIRECT_URL)
 @require_character
+@auction_complete
 def closed_auction(request):
     """Генерация домашней страницы."""
     template = 'dkp/dkp.html'

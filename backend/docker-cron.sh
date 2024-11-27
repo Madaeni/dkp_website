@@ -2,17 +2,17 @@
 
 set -e
 
-# Настраиваем cron задачу
-echo "* * * * * root python manage.py update_expired_auctions" > /etc/cron.d/auction_cron
-chmod 0644 /etc/cron.d/auction_cron
-service cron start
-
 sleep 2
-# Выполняем миграцию базы данных
+
+# Миграция баз данных
 python manage.py migrate
+
+# Сбор статики
 python manage.py collectstatic --no-input
+
+# Копирование статических файлов
 cp -r /app/collected_static/. /backend_static/static/
 cp -r /app/static/. /backend_static/static/
 
-# Запускаем сервер Django
+# Запуск gunicorn
 gunicorn --bind 0.0.0.0:8000 website.wsgi

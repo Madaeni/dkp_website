@@ -3,9 +3,10 @@ import pytz
 
 from django.contrib import messages
 from django.core.paginator import PageNotAnInteger, EmptyPage
-from django.db.models import Prefetch, OuterRef, Subquery, Case, When, Q
+from django.db.models import Prefetch, OuterRef, Subquery, Case, When, Q, Max
 from django.db.models.functions import Lower
 from django.shortcuts import redirect
+from django.utils.timezone import now
 
 from core.constants import HOME_URL, AUCTION_URL
 from dkp.models import (
@@ -205,6 +206,9 @@ def create_new_bet(request):
         messages.error(request, 'Ошибка ввода значения ставки.')
         return redirect(AUCTION_URL)
     lot = Auction.objects.get(id=lot_id)
+    if lot.close_date <= now():
+        messages.error(request, 'Аукцион уже завершён.')
+        return redirect(AUCTION_URL)
     bet = Bet(character=character, bet=new_bet, auction_id=lot)
     bet.save()
     return redirect(AUCTION_URL)
@@ -248,5 +252,31 @@ def require_character(view_func):
         character = request.user.characters.first()
         if not character:
             return redirect('dkp:profile')
+        return view_func(request, *args, **kwargs)
+    return wrapper
+
+
+def auction_complete(view_func):
+    def wrapper(request, *args, **kwargs):
+        current_time = now()
+        expired_auctions = Auction.objects.filter(
+            is_active=Auction.Status.ACTIVE,
+            close_date__lte=current_time,
+        )
+
+        for auction in expired_auctions:
+            winning_bet = auction.auctions.aggregate(Max('bet'))['bet__max']
+
+            if winning_bet:
+                winner = Bet.objects.get(
+                    auction_id=auction.id,
+                    bet=winning_bet
+                ).character
+                dkp_entry = Dkp.objects.get(character=winner)
+                dkp_entry.points -= winning_bet
+                dkp_entry.save()
+
+            auction.is_active = Auction.Status.CLOSED
+            auction.save()
         return view_func(request, *args, **kwargs)
     return wrapper
