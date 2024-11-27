@@ -8,6 +8,8 @@
                 <div class="dkp__auc-name">
                     {% if lot.character %}
                         Победившая ставка: <span>{{ lot.character }} {{ lot.bet }} DKP</span>
+                    {% else %}
+                        Победившая ставка: <span>Никто не сделал ставку</span>
                     {% endif %}
                 </div>
                 <img src="{{ MEDIA_URL }}{{ lot.lot_image }}" alt="" class="dkp__auc-img">
