@@ -1,4 +1,3 @@
-from datetime import datetime
 from http import HTTPStatus
 
 from django.contrib.auth import authenticate, login
@@ -12,7 +11,6 @@ from core.constants import (
     LOT_OBJECTS_ON_PAGE,
 )
 from dkp.forms import RegistrationForm, AuthorizationForm
-from dkp.models import Character, Dkp
 from dkp.utils import (
     get_dkp_table,
     get_event_types,
@@ -30,6 +28,7 @@ from dkp.utils import (
     get_base_context,
     require_character,
     auction_complete,
+    edit_character_name,
 )
 from website import settings
 
@@ -82,22 +81,7 @@ def profile(request):
     template = 'dkp/profile.html'
     character = request.user.characters.first()
     if request.method == 'POST':
-        if character:
-            character.name = request.POST['character_name']
-            character.save()
-        else:
-            character = Character(
-                name=request.POST['character_name'],
-                user=request.user
-            )
-            character.save()
-            dkp = Dkp(
-                user=request.user,
-                character=character,
-                last_activity=datetime.now()
-            )
-            dkp.save()
-        return redirect('dkp:profile')
+        return edit_character_name(request)
     events = get_user_events(character)[:10] if character else None
     context = {
         'character': character,

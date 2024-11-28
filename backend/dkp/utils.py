@@ -16,6 +16,7 @@ from dkp.models import (
     EventCharacter,
     Auction,
     Bet,
+    Character
 )
 from website import settings
 
@@ -280,3 +281,27 @@ def auction_complete(view_func):
             auction.save()
         return view_func(request, *args, **kwargs)
     return wrapper
+
+
+def edit_character_name(request):
+    name = request.POST['character_name']
+    if not name:
+        messages.error(request, 'Введите имя игрового персонажа!')
+        return redirect('dkp:profile')
+    character = request.user.characters.first()
+    if character:
+        character.name = name
+        character.save()
+    else:
+        character = Character(
+            name=name,
+            user=request.user
+        )
+        character.save()
+        dkp = Dkp(
+            user=request.user,
+            character=character,
+            last_activity=datetime.now()
+        )
+        dkp.save()
+    return redirect('dkp:profile')

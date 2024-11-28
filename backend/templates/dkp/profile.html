@@ -8,6 +8,17 @@
     <section class="acc">
         <div class="container">
             <div class="acc__title">Профиль пользователя</div>
+            {% if messages %}
+                <div class="messages__box">
+                    <div class="messages">
+                        {% for message in messages %}
+                        <div class="alert alert-error">
+                            {{ message }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
             <form class="acc__form" method="post" action=".">
                 {% csrf_token %}
                 <div class="acc__form-row">

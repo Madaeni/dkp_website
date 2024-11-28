@@ -38,7 +38,7 @@ class Character(models.Model):
         max_length=CHARACTER_MAX_LENGTH
     )
     guild = models.ForeignKey(
-        Guild, on_delete=models.SET_NULL, null=True,
+        Guild, on_delete=models.SET_NULL, blank=True, null=True,
         related_name='guild_characters', verbose_name='Гильдия'
     )
     user = models.ForeignKey(
@@ -186,7 +186,7 @@ class Dkp(models.Model):
         related_name='dkp_users', verbose_name='Имя пользователя'
     )
     character = models.ForeignKey(
-        Character, on_delete=models.SET_NULL, null=True,
+        Character, on_delete=models.SET_NULL, blank=True, null=True,
         related_name='dkp_characters', verbose_name='Имя персонажа'
     )
     points = models.IntegerField('Очки дкп', default=0)

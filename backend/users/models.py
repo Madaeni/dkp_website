@@ -10,6 +10,6 @@ class Avatar(models.Model):
 
 class User(AbstractUser):
     avatar = models.ForeignKey(
-        Avatar, on_delete=models.SET_NULL, null=True,
+        Avatar, on_delete=models.SET_NULL, blank=True, null=True,
         related_name='user_avatar', verbose_name='Аватар'
     )
