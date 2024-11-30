@@ -301,7 +301,7 @@ def edit_character_name(request):
         dkp = Dkp(
             user=request.user,
             character=character,
-            last_activity=datetime.now()
+            last_activity=datetime.datetime.now()
         )
         dkp.save()
     return redirect('dkp:profile')
