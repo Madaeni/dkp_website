@@ -9,7 +9,7 @@
                     <button class="btn__item" name="event_registration_submit">Зарегистрироваться</button>
                     {% if request.user.is_staff %}
                         <button class="btn__prem" name="event_close_submit">Закрыть событие</button>
-                    {% if request.user.is_staff %}
+                    {% endif %}
                 </form>
             </div>
             <div class="dkp__event-list">
