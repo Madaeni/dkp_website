@@ -105,7 +105,7 @@ class Event(models.Model):
         return self.created_at.astimezone(MOSCOW_TZ)
 
     def __str__(self):
-        formated_date = self.local_created_at.strftime('%H:%M %Y.%m.%d')
+        formated_date = self.local_created_at.strftime('%H:%M %d.%m.%Y')
         return f'{self.event_type} {formated_date}'
 
 

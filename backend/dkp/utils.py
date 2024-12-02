@@ -61,7 +61,7 @@ def get_user_events(character):
     ).distinct()
 
     for event in events:
-        event.created_at = event.local_created_at.strftime('%H:%M %Y.%m.%d')
+        event.created_at = event.local_created_at.strftime('%H:%M %d.%m.%Y')
 
     return events
 
