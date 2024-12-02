@@ -16,7 +16,7 @@
                 {% if event_players %}
                     {% for event_player in event_players%}
                         <div class="dkp__event-list-item">
-                            <div>{{ event_player.character }}</div>
+                            <div>{{ forloop.counter }}. {{ event_player.character }}</div>
                             {% if request.user.is_staff %}
                                 <form method="post" action=".">
                                     {% csrf_token %}
