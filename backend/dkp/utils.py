@@ -8,7 +8,7 @@ from django.db.models.functions import Lower
 from django.shortcuts import redirect
 from django.utils.timezone import now
 
-from core.constants import HOME_URL, AUCTION_URL
+from core.constants import HOME_URL, AUCTION_URL, MOSCOW_TZ
 from dkp.models import (
     Dkp,
     EventType,
@@ -31,7 +31,7 @@ def get_dkp_points(user):
 
 
 def get_dkp_table():
-    user_timezone = pytz.timezone('Europe/Moscow')
+    user_timezone = MOSCOW_TZ
     table = []
     dkp = Dkp.objects.filter(is_active=True).order_by(Lower('character__name'))
     if dkp:
@@ -55,10 +55,15 @@ def get_event_types():
 
 
 def get_user_events(character):
-    return Event.objects.filter(
+    events = Event.objects.filter(
         Q(events__character=character),
         Q(is_active=Event.Status.CLOSED)
     ).distinct()
+
+    for event in events:
+        event.created_at = event.local_created_at
+
+    return events
 
 
 def get_event_and_players():

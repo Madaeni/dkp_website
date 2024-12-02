@@ -1,3 +1,8 @@
+import pytz
+
+# Timezone
+MOSCOW_TZ = pytz.timezone('Europe/Moscow')
+
 # Models
 GUILD_NAME_MAX_LENGTH = 100
 CHARACTER_MAX_LENGTH = 256

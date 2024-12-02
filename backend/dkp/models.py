@@ -7,6 +7,7 @@ from core.constants import (
     CHARACTER_MAX_LENGTH,
     EVENT_NAME_MAX_LENGTH,
     IS_ACTIVE_MAX_LENGTH,
+    MOSCOW_TZ,
 )
 from core.validators import (
     validate_greater_than_zero,
@@ -99,8 +100,13 @@ class Event(models.Model):
         verbose_name_plural = 'События'
         ordering = ('-created_at',)
 
+    @property
+    def local_created_at(self):
+        """Возвращает дату создания в московском часовом поясе."""
+        return self.created_at.astimezone(MOSCOW_TZ)
+
     def __str__(self):
-        formated_date = self.created_at.strftime('%H:%M %Y.%m.%d')
+        formated_date = self.local_created_at.strftime('%H:%M %Y.%m.%d')
         return f'{self.event_type} {formated_date}'
 
 
