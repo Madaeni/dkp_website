@@ -102,7 +102,6 @@ class Event(models.Model):
 
     @property
     def local_created_at(self):
-        """Возвращает дату создания в московском часовом поясе."""
         return self.created_at.astimezone(MOSCOW_TZ)
 
     def __str__(self):
