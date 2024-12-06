@@ -6,7 +6,7 @@ from django.core.paginator import PageNotAnInteger, EmptyPage
 from django.db.models import Prefetch, OuterRef, Subquery, Case, When, Q, Max
 from django.db.models.functions import Lower
 from django.shortcuts import redirect
-from django.utils.timezone import now
+from django.utils.timezone import now, make_aware
 
 from core.constants import HOME_URL, AUCTION_URL, MOSCOW_TZ
 from dkp.models import (
@@ -31,13 +31,12 @@ def get_dkp_points(user):
 
 
 def get_dkp_table():
-    user_timezone = MOSCOW_TZ
     table = []
     dkp = Dkp.objects.filter(is_active=True).order_by(Lower('character__name'))
     if dkp:
         for el in dkp:
-            last_activity_utc = el.last_activity.replace(tzinfo=pytz.UTC)
-            last_activity_local = last_activity_utc.astimezone(user_timezone)
+            last_activity_utc = make_aware(el.last_activity, MOSCOW_TZ)
+            last_activity_local = last_activity_utc.astimezone(MOSCOW_TZ)
             table.append(
                 {
                     'character': el.character if el.character else el.user,
