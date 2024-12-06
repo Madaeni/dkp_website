@@ -6,7 +6,7 @@ from django.core.paginator import PageNotAnInteger, EmptyPage
 from django.db.models import Prefetch, OuterRef, Subquery, Case, When, Q, Max
 from django.db.models.functions import Lower
 from django.shortcuts import redirect
-from django.utils.timezone import now, make_aware
+from django.utils.timezone import now, is_aware, make_aware
 
 from core.constants import HOME_URL, AUCTION_URL, MOSCOW_TZ
 from dkp.models import (
@@ -35,7 +35,11 @@ def get_dkp_table():
     dkp = Dkp.objects.filter(is_active=True).order_by(Lower('character__name'))
     if dkp:
         for el in dkp:
-            last_activity_utc = make_aware(el.last_activity, MOSCOW_TZ)
+            if is_aware(el.last_activity):
+                last_activity_utc = el.last_activity
+            else:
+                last_activity_utc = make_aware(el.last_activity, MOSCOW_TZ)
+
             last_activity_local = last_activity_utc.astimezone(MOSCOW_TZ)
             table.append(
                 {
@@ -188,6 +192,9 @@ def create_new_lot(request):
 def create_new_bet(request):
     new_bet = request.POST.get('new_bet')
     lot_id = int(request.POST.get('lot_id'))
+    if int(new_bet) <= 0:
+        messages.error(request, 'Ставка должна быть больше нуля.')
+        return redirect(AUCTION_URL)
     if not new_bet:
         messages.error(request, 'Не введено значение ставки.')
         return redirect(AUCTION_URL)
@@ -213,6 +220,10 @@ def create_new_bet(request):
     lot = Auction.objects.get(id=lot_id)
     if lot.close_date <= now():
         messages.error(request, 'Аукцион уже завершён.')
+        return redirect(AUCTION_URL)
+    previous_max_bet = lot.bets.aggregate(Max('bet')).get('bet__max', 0)
+    if int(new_bet) <= previous_max_bet:
+        messages.error(request, 'Новая ставка должна превышать предыдущую.')
         return redirect(AUCTION_URL)
     bet = Bet(character=character, bet=new_bet, auction_id=lot)
     bet.save()
