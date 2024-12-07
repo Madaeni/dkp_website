@@ -222,6 +222,8 @@ def create_new_bet(request):
         messages.error(request, 'Аукцион уже завершён.')
         return redirect(AUCTION_URL)
     previous_max_bet = lot.auctions.aggregate(Max('bet')).get('bet__max', 0)
+    if not previous_max_bet:
+        previous_max_bet = 0
     if int(new_bet) <= previous_max_bet:
         messages.error(request, 'Новая ставка должна превышать предыдущую.')
         return redirect(AUCTION_URL)
